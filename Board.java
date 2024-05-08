@@ -238,31 +238,58 @@ public class Board {
     }
 
     public boolean roadNextToNode(int x, int y, Player p) {
-        System.out.println("node");
-        System.out.println(x);
-        System.out.println(y);
-        System.out.println("road 1");
-        System.out.println(2*x+1);
-        System.out.println(2*y);
+        
         if(x != 10){
             if(edges[2*y][2*x+1].getRoad() != null) {
                 if(edges[2*y][2*x+1].getRoad().getNameOfPlayer() == p){
-                    System.out.println("detected road" + 2*x+1 + " " + 2*y);
                     return true;
                 }
             }
         }
-        System.out.println("road 2");
-        System.out.println(2*x-1);
-        System.out.println(2*y);
+  
         if(x != 0){
             if(edges[2*y][2*x-1].getRoad() != null) {
                 if(edges[2*y][2*x-1].getRoad().getNameOfPlayer() == p){
-                    System.out.println("detected road" + (2*x-1) + " " + (2*y));
                     return true;
                 } 
             }     
         }
+        
+        if(y != 0 && y!= 5) {
+            //check up + down
+            if(edges[2*y+1][2*x] != null){
+                if(edges[2*y+1][2*x].getRoad() != null) {
+                    if(edges[2*y+1][2*x].getRoad().getNameOfPlayer() == p){
+                        return true;
+                    }
+                } 
+            }else if(edges[2*y-1][2*x] != null){
+                if(edges[2*y-1][2*x].getRoad() != null) {
+                    if(edges[2*y-1][2*x].getRoad().getNameOfPlayer() == p){
+                        return true;
+                    }
+                }
+            }
+        } else if(y == 0) {
+            // check down
+            if(edges[2*y+1][2*x] != null) {
+                if(edges[2*y+1][2*x].getRoad() != null) {
+                    if(edges[2*y+1][2*x].getRoad().getNameOfPlayer() == p){
+                        return true;
+                    }
+                }
+            }
+        } else if(y == 5) {
+            //check up
+            if(edges[2*y-1][2*x] != null) {
+                if(edges[2*y-1][2*x].getRoad() != null) {
+                    if(edges[2*y-1][2*x].getRoad().getNameOfPlayer() == p){
+                        return true;
+                    }
+                }
+            }
+        }
+        
         if(firstPlacing) {
             int bound;
             int upordown;
