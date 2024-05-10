@@ -1,6 +1,4 @@
-
 import java.util.ArrayList;
-
 
 public class Game {
 
@@ -147,10 +145,12 @@ public class Game {
     public boolean upgradeHouse(int x, int y){
         Player p = players.get(currentPlayer);
         if(p.getMat("wheat") > 1 && p.getMat("ore") > 2){
-            gameBoard.upgradeHouse(x, y);
-            p.updateMat("wheat", -2);
-            p.updateMat("ore", -3);
-            return true;
+            if(gameBoard.hasHouse(x, y, p)) {
+                gameBoard.upgradeHouse(x, y);
+                p.updateMat("wheat", -2);
+                p.updateMat("ore", -3);
+                return true;
+            }
         }
         return false;
     }
@@ -219,10 +219,6 @@ public class Game {
 
     public void developmentCardVP(){
         players.get(currentPlayer).addVP(1);
-    }
-
-    public void addRoad(Edge edge, Player player) {
-        edge.addRoad(new Road(player));
     }
 
     public int getNumberOfResources(Player p){

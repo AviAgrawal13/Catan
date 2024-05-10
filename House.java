@@ -1,4 +1,3 @@
-
 public class House {
     private int level; // 1 or 2 based (city or settlement respectively)
     private Player player;

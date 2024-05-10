@@ -1,5 +1,3 @@
-
-
 public class Player {
 
     private int wood = 0;
@@ -34,6 +32,10 @@ public class Player {
 
     public int[] getMatArray(){
         return new int[]{wood, brick, sheep, wheat, ore};
+    }
+
+    public int[] getDevPlayer() {
+        return developmentCards;
     }
 
     public int getMat(String material) {
@@ -79,6 +81,10 @@ public class Player {
 
     public void addDevelopmentCard(int typeOfCard) {
         ++developmentCards[typeOfCard];
+    }
+    
+    public void subtractDevelopmentCard(int typeOfCard) {
+        --developmentCards[typeOfCard];
     }
 
     public boolean canUseDevelopmentCard(int typeOfCard) {

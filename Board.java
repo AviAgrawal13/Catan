@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,6 +9,7 @@ public class Board {
     private HashMap<Integer, int[]> diceToHex = new HashMap<>();
     private Edge[][] edges = new Edge[11][21];
     private boolean firstPlacing = true;
+    private HashMap<Integer, String> tileToType = new HashMap<>();
 
     public void setfirstPlacing() {
         this.firstPlacing = false;
@@ -165,11 +165,10 @@ public class Board {
             }else{
                 tileArray[i].setType("desert");
             }
+            tileToType.put(i+1, tiletype.get(i));
         }
 
-
     }
-
 
     private void createNode2DArray() {
         for(int i = 2; i < 9; i++) {
@@ -191,6 +190,17 @@ public class Board {
     public Node[] getPoints(Integer i){
         return this.tileToNode.get(i);    
         
+    }
+
+    public boolean hasHouse(int x, int y, Player p) {
+        if(!node2DArray[y][x].hasHouse()) {
+            return false;
+        } else {
+            if(node2DArray[y][x].getHouse().getNameOfPlayer().equals(p)) { 
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean canPlaceHouse(int x, int y, Player p) {

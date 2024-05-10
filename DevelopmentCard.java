@@ -1,4 +1,3 @@
-
 public class DevelopmentCard {
     public int typeOfCard;
 

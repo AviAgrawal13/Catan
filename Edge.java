@@ -1,4 +1,3 @@
-
 public class Edge {
     private Road road = null;
     public Edge() {

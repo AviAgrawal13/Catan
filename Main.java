@@ -1,5 +1,5 @@
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -24,13 +24,14 @@ public class Main {
 
             while(true){
                 Player p = game.getCurrentPlayer();
-                p.addDevelopmentCard(0);
                 System.out.println(p.getColor() +  " do you want to play knight or roll? (k or r)");
 //                System.out.println("you have " + )
                 String input = s.nextLine().toLowerCase();
                 if(input.equals("k")){
                     if(p.canUseDevelopmentCard(0)) {
                         robberMovement(s, false);
+                    } else {
+                        System.out.println("you do not have a knight");
                     }
                 }else if(input.equals("r")){
                     int roll = game.rollDice();
@@ -41,49 +42,158 @@ public class Main {
                         game.distributeResources(roll);
                         System.out.println(roll);
                     }
-                }
-                while (true){
-                    boolean end = false;
-                    System.out.println("You have: Wood " + p.getMatArray()[0] + " Brick " + p.getMatArray()[1] + " Sheep " + p.getMatArray()[2] + " Wheat " + p.getMatArray()[3] + " Ore " + p.getMatArray()[4]);
-                    System.out.println("What would you like to do?");
-                    System.out.println("bd - buy dev card    ud # - use dev card");
-                    System.out.println("bh # # - buy house    uh # # - upgrade house");
-                    System.out.println("br # # - buy road");
-                    System.out.println("e - end turn");
-                    String inputs = s.next();
-                    switch (inputs.charAt(0)){
-                        case 'e' -> end = true;
-                        case 'b' -> {
-                        switch (inputs.charAt(1)) {
-                            case 'd' -> {
-                                if(!game.buyDevelopmentCard()){
-                                    System.out.println("You cannot afford that. Please do something else.");
-                                }
-                            }
-                            case 'h' -> {
-                                if(!game.buildHouse(s.nextInt(), s.nextInt())){
-                                    System.out.println("Something is wrong you may be too broke or unable to build there");
-                                }
-                            }
-                            case 'r' -> {
-                                if (!game.buildRoad(s.nextInt(), s.nextInt())) {
-                                    System.out.println("Something is wrong you may be too broke or unable to build there");
-                                }
-                            }
-                            default -> {
-                            }
-                        }
-                        }
-                        case 'u' -> {
-                        }
 
-                        default -> System.out.println("Try again.");
-                    }
-                    if(end){
-                        game.endTurn();
-                        break;
+                    while (true){
+                        boolean end = false;
+                        System.out.println("You have: Wood " + p.getMatArray()[0] + " Brick " + p.getMatArray()[1] + " Sheep " + p.getMatArray()[2] + " Wheat " + p.getMatArray()[3] + " Ore " + p.getMatArray()[4]);
+                        System.out.println("What would you like to do?");
+                        System.out.println("bd - buy dev card    ud - use dev card");
+                        System.out.println("bh # # - buy house    uh # # - upgrade house");
+                        System.out.println("br # # - buy road    tb - trade bank");
+                        System.out.println("e - end turn");
+                        String inputs = s.next();
+                        switch (inputs.charAt(0)){
+                            case 'e' -> end = true;
+                            case 'b' -> {
+                            switch (inputs.charAt(1)) {
+                                case 'd' -> {
+                                    if(!game.buyDevelopmentCard()){
+                                        System.out.println("You cannot afford that. Please do something else.");
+                                    }
+                                }
+                                case 'h' -> {
+                                    if(!game.buildHouse(s.nextInt(), s.nextInt())){
+                                        System.out.println("Something is wrong you may be too broke or unable to build there");
+                                    }
+                                }
+                                case 'r' -> {
+                                    if (!game.buildRoad(s.nextInt(), s.nextInt())) {
+                                        System.out.println("Something is wrong you may be too broke or unable to build there");
+                                    }
+                                }
+                                default -> {
+                                }
+                            }
+                            }
+                            case 'u' -> {
+                                switch (inputs.charAt(1)) {
+                                    case 'd' -> {
+                                        System.out.println("""
+                                            0 knight
+                                            1 road building 2 roads
+                                            2 Year of plenty
+                                            3 monopoly
+                                            4 victory point
+                                                """);
+                                        System.out.println("What you have");
+                                        System.out.println(Arrays.toString(p.getDevPlayer()));
+                                        
+                                        System.out.println("Which one? >");
+                                        int developmentcard = s.nextInt();
+                                        if(p.canUseDevelopmentCard(developmentcard)) {
+                                            switch (developmentcard) {
+                                                case 0 -> {
+                                                    robberMovement(s, false);
+                                                    p.subtractDevelopmentCard(developmentcard);
+                                                }
+                                                case 1 -> {
+                                                    System.out.println("where x y for road 1");
+                                                    int x = s.nextInt();
+                                                    int y = s.nextInt();
+                                                    if(board.canPlaceRoad(x, y, p)) {
+                                                        board.getEdge(x, y).addRoad(new Road(p));
+                                                    } else {
+                                                        System.out.println("invalid placement for road now u lose ur chance bitchass");
+                                                    }
+
+                                                    System.out.println("where x y for road 2");
+                                                    x = s.nextInt();
+                                                    y = s.nextInt();
+                                                    if(board.canPlaceRoad(x, y, p)) {
+                                                        board.getEdge(x, y).addRoad(new Road(p));
+                                                    } else {
+                                                        System.out.println("invalid placement for road now u lose ur chance bitchass");
+                                                    }
+                                                    p.subtractDevelopmentCard(developmentcard);
+                                                }
+                                                case 2 -> {
+                                                    int[] resources = {0,0,0,0,0};
+                                                    while(true){
+                                                        System.out.println("which resources?");
+                                                        System.out.println("wood brick sheep wheat ore v w x y z");
+                                                        for(int i = 0; i < resources.length; i++) {
+                                                            resources[i] = s.nextInt();
+                                                        }
+                                                        double sum = 0;
+                                                        for(int i = 0; i < resources.length; i++)
+                                                            sum += resources[i];
+                                                        if(sum == 2) {
+                                                            break;
+                                                        }
+                                                        System.out.println("two resources only");
+                                                    }
+                                                    game.developmentCardYearOfPlenty(resources);
+                                                    p.subtractDevelopmentCard(developmentcard);
+                                                }
+                                                case 3 -> {
+                                                    System.out.println("which resource?");
+                                                    System.out.println("wood brick sheep wheat ore");
+                                                    game.developmentCardMonoply(s.nextLine());
+                                                    p.subtractDevelopmentCard(developmentcard);
+                                                }
+                                                case 4 -> {
+                                                    game.developmentCardVP();
+                                                    p.subtractDevelopmentCard(developmentcard);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    case 'h' -> {
+                                        if(!game.upgradeHouse(s.nextInt(), s.nextInt())){
+                                            System.out.println("Something is wrong you may be too broke or no house to upgrade there");
+                                        }
+                                    }
+                                }
+                            }
+                            case 't' -> {
+                                switch(inputs.charAt(1)){
+                                    case 'b' -> {
+                                        System.out.println("What resource do you want to give away (String)");
+                                        s.nextLine();
+                                        String away = s.nextLine();
+                                        System.out.println("What resource do you want to get (String)");
+                                        String get = s.nextLine();
+                                        if(!game.bankTrade(away, get)){
+                                            System.out.println("You are probably a brokie");
+                                        }
+                                    }
+                                    case 'p' -> {
+                                        System.out.println("What resource do you want to give away (int[])");
+                                        int[] give = new int[]{s.nextInt(), s.nextInt(), s.nextInt(), s.nextInt(), s.nextInt()};
+                                        System.out.println("What resource do you want to get (int[])");
+                                        int[] get = new int[]{s.nextInt(), s.nextInt(), s.nextInt(), s.nextInt(), s.nextInt()};
+                                        System.out.println("who u tradin with");
+                                        for(int i = 0; i < 4; i++){
+                                            System.out.println(players.get(i).getColor() + i);
+                                        }
+                                        Player play = players.get(s.nextInt());
+                                        if(!game.playerTrade(give, get, play)){
+                                            System.out.println("nah bruh");
+                                        }
+                                    }
+                                }
+                            }
+    
+                            default -> System.out.println("Try again.");
+                        }
+                        if(end){
+                            game.endTurn();
+                            break;
+                        }
                     }
                 }
+                
 
 
                 if(p.getVPs() == 10) {
