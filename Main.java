@@ -263,34 +263,33 @@ public class Main {
     private static void setupGame(Scanner s){
         int[] players = new int[]{0, 1, 2, 3, 3, 2, 1, 0};
 
-        game.setCurrentPlayer(0);
-        board.addHouse(2, 2, game.getCurrentPlayer());
-        board.addHouse(3, 3, game.getCurrentPlayer());
-        board.addRoad(4, 5, game.getCurrentPlayer());
-        board.addRoad(7, 6, game.getCurrentPlayer());
+        // game.setCurrentPlayer(0);
+        // board.addHouse(2, 2, game.getCurrentPlayer());
+        // board.addHouse(3, 3, game.getCurrentPlayer());
+        // board.addRoad(4, 5, game.getCurrentPlayer());
+        // board.addRoad(7, 6, game.getCurrentPlayer());
 
-        game.setCurrentPlayer(1);
-        board.addHouse(5, 3, game.getCurrentPlayer());
-        board.addHouse(6, 2, game.getCurrentPlayer());
-        board.addRoad(9, 6, game.getCurrentPlayer());
-        board.addRoad(12, 5, game.getCurrentPlayer());
+        // game.setCurrentPlayer(1);
+        // board.addHouse(5, 3, game.getCurrentPlayer());
+        // board.addHouse(6, 2, game.getCurrentPlayer());
+        // board.addRoad(9, 6, game.getCurrentPlayer());
+        // board.addRoad(12, 5, game.getCurrentPlayer());
 
-        game.setCurrentPlayer(2);
-        board.addHouse(8, 3, game.getCurrentPlayer());
-        board.addHouse(5, 1, game.getCurrentPlayer());
-        board.addRoad(16, 5, game.getCurrentPlayer());
-        board.addRoad(11, 2, game.getCurrentPlayer());
+        // game.setCurrentPlayer(2);
+        // board.addHouse(8, 3, game.getCurrentPlayer());
+        // board.addHouse(5, 1, game.getCurrentPlayer());
+        // board.addRoad(16, 5, game.getCurrentPlayer());
+        // board.addRoad(11, 2, game.getCurrentPlayer());
 
-        game.setCurrentPlayer(3);
-        board.addHouse(9, 2, game.getCurrentPlayer());
-        board.addHouse(7, 1, game.getCurrentPlayer());
-        board.addRoad(17, 4, game.getCurrentPlayer());
-        board.addRoad(13, 2, game.getCurrentPlayer());
+        // game.setCurrentPlayer(3);
+        // board.addHouse(9, 2, game.getCurrentPlayer());
+        // board.addHouse(7, 1, game.getCurrentPlayer());
+        // board.addRoad(17, 4, game.getCurrentPlayer());
+        // board.addRoad(13, 2, game.getCurrentPlayer());
 
-        board.setfirstPlacing();
-        game.setCurrentPlayer(0);
+        
 
-        /*
+        
         for (int i : players) {
             game.setCurrentPlayer(i);
             System.out.println("Player " + game.getPlayerColor() + " where would you like to put your first house? (format x y)");
@@ -322,7 +321,9 @@ public class Main {
                 }
             }
         }
-        */
+        
+        board.setfirstPlacing();
+        game.setCurrentPlayer(0);
         //2 2, 4 5, 5 3, 9 6, 8 3, 16 5, 9 2, 17 4, 7 1, 13 2, 5 1, 11 2, 6 2, 12 5, 3 3, 7 6
     }
 }
