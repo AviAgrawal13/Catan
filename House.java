@@ -1,16 +1,39 @@
+/**
+ * Represents a house (settlement or city) owned by a player on a game map.
+ */
 public class House {
-    private int level; // 1 or 2 based (city or settlement respectively)
-    private Player player;
+    private int level;        // Indicates the level of the house (1 for settlement, 2 for city)
+    private Player player;    // The player who owns this house
 
+    /**
+     * Constructs a House with an initial level of settlement (level 1) owned by the specified player.
+     * @param player The player who owns this house
+     */
     public House(Player player) {
         this.level = 1;
         this.player = player;
     }
 
+    /**
+     * Gets the level of this house.
+     * @return The level of the house (1 for settlement, 2 for city)
+     */
     public int getLevel() {
         return level;
     }
 
-    public Player getNameOfPlayer() {return player;}
-    public void increaseLevel() {level++;}
+    /**
+     * Gets the player who owns this house.
+     * @return The player who owns this house
+     */
+    public Player getNameOfPlayer() {
+        return player;
+    }
+
+    /**
+     * Increases the level of this house from settlement (level 1) to city (level 2).
+     */
+    public void increaseLevel() {
+        level++;
+    }
 }
