@@ -135,12 +135,7 @@ public class Player {
      * @return True if the player can use the card; false otherwise
      */
     public boolean canUseDevelopmentCard(int typeOfCard) {
-        if (developmentCards[typeOfCard] > 0) {
-            developmentCards[typeOfCard]--;
-            return true;
-        } else {
-            return false;
-        }
+        return developmentCards[typeOfCard] > 0;
     }
 
     /**

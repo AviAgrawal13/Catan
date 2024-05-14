@@ -21,7 +21,7 @@ public class Main {
 
         // Initialize players with initial resources and colors
         players.add(new Player(100, 100, 100, 100, 100, "red"));
-        players.add(new Player(2, 2, 2, 2, 2, "blue"));
+        players.add(new Player(200, 200, 2, 2, 2, "blue"));
         players.add(new Player(2, 2, 2, 2, 2, "white"));
         players.add(new Player(2, 2, 2, 2, 2, "orange"));
 
@@ -79,7 +79,7 @@ public class Main {
                                 " Sheep " + p.getMatArray()[2] + " Wheat " + p.getMatArray()[3] + " Ore " +
                                 p.getMatArray()[4]);
                         // System.out.println(board.runDFS(p));
-                        // System.out.println(p.hasLongRoad());
+                        System.out.println("Longest Road? -> " + p.hasLongRoad());
                         System.out.println("What would you like to do?");
                         System.out.println("bd - buy dev card    ud - use dev card");
                         System.out.println("bh # # - buy house    uh # # - upgrade house");
@@ -113,7 +113,7 @@ public class Main {
                                         } else {
                                             cp.updateRoad(x, y, p.getColor());
 
-                                            board.runDFS(p);
+                                            p.updateLongestRoad(board.runDFS(p));
 
                                             int player = 0 , bestScore = -1 , dupe = 0;
                                             for(int i = 0;i<4;i++){
@@ -130,7 +130,9 @@ public class Main {
                                                 for(int i = 0; i < 4; i++) {
                                                     players.get(i).setRoadAchievement(false);
                                                 }
-                                                players.get(player).setRoadAchievement(true);
+                                                if(players.get(player).getLongestRoad() >= 5){
+                                                    players.get(player).setRoadAchievement(true);
+                                                }
                                             }
                                         }
                                     }

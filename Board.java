@@ -467,22 +467,22 @@ public class Board {
     }
     
     public int runDFS(Player p){
+        this.dfsRet = 0;
         for(int i = 0; i < 21; i++){
             for(int j = 0; j < 11; j++){
                 if(edges[j][i] != null) {
                     if(edges[j][i].getRoad() != null) {
                         if(edges[j][i].getRoad().getNameOfPlayer() == p){
-                            this.dfsRet = 0;
                             boolean[][] vis = new boolean[11][21];
                             vis[j][i] = true;
                             dfs(1, vis, new Point(i, j), p);
-                            return Math.max(dfsRet, p.getLongestRoad());
+                            dfsRet = Math.max(dfsRet, p.getLongestRoad());
                         }
                     }
                 }
             }
         }
-        return -1;
+        return dfsRet;
     }
 
     public ArrayList<Point> getRoadsFromNode(int x, int y, Player p) {
@@ -561,24 +561,16 @@ public class Board {
         
         ArrayList<Point> point1 = getRoadsFromNode(x1, y1, p);
         ArrayList<Point> point2 = getRoadsFromNode(x2, y2, p);
-
-        String jeff = "From node " + x1 + " " + y1 + " ";
         
         for(Point i : point1) {
             roadsNeighboring.add(i);
-            jeff += i + " ";
         }
-        
-        jeff += " From node " + x2 + " " + y1 + " ";
-        
+                
         for(Point i : point2) {
             if(!roadsNeighboring.contains(i)){
                 roadsNeighboring.add(i);
-                jeff += i;
             }
         }
-
-        System.out.println(jeff);
         return roadsNeighboring;    
     }
 
@@ -588,8 +580,6 @@ public class Board {
         for(Point p : neighbors){
             if(!vis[p.getY()][p.getX()] && nullCheck(p)){
                 if(edges[p.getY()][p.getX()].getRoad().getNameOfPlayer() == play){
-                    System.out.print("dfs + ");
-                    System.out.println(p);
                     vis[p.getY()][p.getX()] = true;
                     dfs(length+1, vis, new Point(p.getX(), p.getY()), play);
                     vis[p.getY()][p.getX()] = false;
