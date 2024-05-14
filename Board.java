@@ -13,6 +13,15 @@ public class Board {
     private HashMap<Integer, Integer> tileToDice = new HashMap<>();
     private int dfsRet = 0;
 
+
+    public HashMap<Integer, Integer> getTileToDice() {
+        return this.tileToDice;
+    }
+
+    public Tile[] getTileArray() {
+        return this.tileArray;
+    }
+
     /**
      * Sets variable for whether or not the placing at the start of the game is occuring
      * as that follows a different rule set.

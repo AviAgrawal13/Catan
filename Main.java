@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import javax.swing.JFrame;
+import java.util.*;
 
 /**
  * The Main class is the entry point of the program. It initializes the game environment, manages player actions,
@@ -11,8 +13,12 @@ public class Main {
     private static ArrayList<Player> players = new ArrayList<>(); // List of players
     private static Board board = new Board(); // The game board
     private static boolean skipSetup = true; // Flag to skip initial setup
-
+    private static CatanPanel cp;
     public static void main(String[] args) {
+        JFrame window = new JFrame("Catan");
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setResizable(false);
+
         // Initialize players with initial resources and colors
         players.add(new Player(100, 100, 100, 100, 100, "red"));
         players.add(new Player(2, 2, 2, 2, 2, "blue"));
@@ -24,7 +30,15 @@ public class Main {
 
         // Initialize the game board
         board.initiateEverything();
-        // board.printDebug();
+        cp = new CatanPanel(board.getTileArray(), board.getTileToDice());
+
+        window.add(cp);
+        window.pack();
+
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+
+        cp.launchGame();
 
         try {
             Scanner s = new Scanner(System.in);
@@ -82,16 +96,23 @@ public class Main {
                                         }
                                     }
                                     case 'h' -> {
-                                        if (!game.buildHouse(s.nextInt(), s.nextInt())) {
+                                        int x = s.nextInt();
+                                        int y = s.nextInt();
+                                        if (!game.buildHouse(x, y)) {
                                             System.out.println("Something is wrong you may be too broke or unable to build there");
                                         } else {
+                                            cp.updateHouse(x, y, p.getColor());
                                             p.addVP(1);
                                         }
                                     }
                                     case 'r' -> {
-                                        if (!game.buildRoad(s.nextInt(), s.nextInt())) {
+                                        int x = s.nextInt();
+                                        int y = s.nextInt();
+                                        if (!game.buildRoad(x, y)) {
                                             System.out.println("Something is wrong you may be too broke or unable to build there");
                                         } else {
+                                            cp.updateRoad(x, y, p.getColor());
+
                                             board.runDFS(p);
 
                                             int player = 0 , bestScore = -1 , dupe = 0;
@@ -192,9 +213,13 @@ public class Main {
 
                                     case 'h' -> {
                                         // Handle upgrading houses
-                                        if (!game.upgradeHouse(s.nextInt(), s.nextInt())) {
+                                        int x = s.nextInt();
+                                        int y = s.nextInt();
+
+                                        if (!game.upgradeHouse(x, y)) {
                                             System.out.println("Something is wrong, you may be too broke or no house to upgrade there");
                                         } else {
+                                            cp.updateCity(x, y, p.getColor());
                                             p.addVP(1);
                                         }
                                     }
@@ -268,6 +293,8 @@ public class Main {
             tile = s.nextInt();
             if (!board.moveRobber(tile)) {
                 System.out.println("The robber is already there, try again.");
+            } else {
+                moveRobberGUI(tile);
             }
             break;
         }
@@ -382,5 +409,48 @@ public class Main {
         }
         board.setfirstPlacing();
         game.setCurrentPlayer(0);
+    }
+
+    public static void moveRobberGUI(int tile) {
+        switch (tile) {
+            case (1):
+                cp.updateRobberPosition(200, 100);
+            case (2):
+                cp.updateRobberPosition(200 + (int)(TileImage.scale * 170), 100);
+            case (3):
+                cp.updateRobberPosition(200 + (int)(2 * TileImage.scale * 170), 100);
+            case (4):
+                cp.updateRobberPosition(200 - (int)(0.5 * TileImage.scale * 170), 100 + (int)(TileImage.scale * 152));
+            case (5):
+                cp.updateRobberPosition(200 + (int)(0.5 * TileImage.scale * 174), 100 + (int)(TileImage.scale * 152));
+            case (6):
+                cp.updateRobberPosition(200 + (int)(3 * 0.5 * TileImage.scale * 170), 100 + (int)(TileImage.scale * 152));
+            case (7):
+                cp.updateRobberPosition(200 + (int)(5 * 0.5 * TileImage.scale * 170), 100 + (int)(TileImage.scale * 152));
+            case (8):
+                cp.updateRobberPosition(200 - (int)(2 * 0.5 * TileImage.scale * 170), 100 + (int)(2 * TileImage.scale * 152));
+            case (9):
+                cp.updateRobberPosition(200, 100 + (int)(2 * TileImage.scale * 152));
+            case (10):
+                cp.updateRobberPosition(200 + (int)(2 * 0.5 * TileImage.scale * 170), 100 + (int)(2 * TileImage.scale * 152));
+            case (11):
+                cp.updateRobberPosition(200 + (int)(2 * TileImage.scale * 170), 100 + (int)(2 * TileImage.scale * 152));
+            case (12):
+                cp.updateRobberPosition(200 + (int)(2 * 1.5 * TileImage.scale * 170), 100 + (int)(2 * TileImage.scale * 152));
+            case (13):
+                cp.updateRobberPosition(200 - (int)(0.5 * TileImage.scale * 170), 100 + (int)(3 * TileImage.scale * 152));
+            case (14):
+                cp.updateRobberPosition(200 + (int)(0.5 * TileImage.scale * 174), 100 + (int)(3 * TileImage.scale * 152));
+            case (15):
+                cp.updateRobberPosition(200 + (int)(3 * 0.5 * TileImage.scale * 170), 100 + (int)(3 * TileImage.scale * 152));
+            case (16):
+                cp.updateRobberPosition(200 + (int)(5 * 0.5 * TileImage.scale * 170), 100 + (int)(3 * TileImage.scale * 152));
+            case (17):
+                cp.updateRobberPosition(200, 100 + (int)(4 * TileImage.scale * 152));
+            case (18):
+                cp.updateRobberPosition(200 + (int)(TileImage.scale * 170), 100 + (int)(4 * TileImage.scale * 152));
+            case (19):
+                cp.updateRobberPosition(200 + (int)(2 * TileImage.scale * 170), 100 + (int)(4 * TileImage.scale * 152));
         }
+    }
 }
