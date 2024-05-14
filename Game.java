@@ -192,9 +192,10 @@ public class Game {
      * Builds a house at the specified location for the current player.
      * @param x X-coordinate of the node location
      * @param y Y-coordinate of the node location
+     * @param cp the catan panel
      * @return True if the house is successfully built; false otherwise
      */
-    public boolean buildHouse(int x, int y) {
+    public boolean buildHouse(int x, int y, CatanPanel cp) {
         Player p = players.get(currentPlayer);
         if (p.getMat("wood") > 0 && p.getMat("brick") > 0 && p.getMat("wheat") > 0 && p.getMat("sheep") > 0 &&
                 gameBoard.canPlaceHouse(x, y, p)) {
@@ -203,6 +204,7 @@ public class Game {
             p.updateMat("brick", -1);
             p.updateMat("wheat", -1);
             p.updateMat("sheep", -1);
+            cp.updateHouse(x, y, p.getColor());
             return true;
         }
         return false;
@@ -212,15 +214,17 @@ public class Game {
      * Upgrades a house to a city at the specified location for the current player.
      * @param x X-coordinate of the node location
      * @param y Y-coordinate of the node location
+     * @param cp the catan panel
      * @return True if the house is successfully upgraded; false otherwise
      */
-    public boolean upgradeHouse(int x, int y) {
+    public boolean upgradeHouse(int x, int y, CatanPanel cp) {
         Player p = players.get(currentPlayer);
         if (p.getMat("wheat") > 1 && p.getMat("ore") > 2) {
             if (gameBoard.hasHouse(x, y, p)) {
                 gameBoard.upgradeHouse(x, y);
                 p.updateMat("wheat", -2);
                 p.updateMat("ore", -3);
+                cp.updateCity(x, y, p.getColor());
                 return true;
             }
         }
@@ -231,14 +235,16 @@ public class Game {
      * Builds a road at the specified location for the current player.
      * @param x X-coordinate of the edge location
      * @param y Y-coordinate of the edge location
+     * @param cp the catan panel
      * @return True if the road is successfully built; false otherwise
      */
-    public boolean buildRoad(int x, int y) {
+    public boolean buildRoad(int x, int y, CatanPanel cp) {
         Player p = players.get(currentPlayer);
         if (p.getMat("wood") > 0 && p.getMat("brick") > 0 && gameBoard.canPlaceRoad(x, y, p)) {
             p.updateMat("wood", -1);
             p.updateMat("brick", -1);
             gameBoard.getEdge(x, y).addRoad(new Road(p));
+            cp.updateRoad(x, y, p.getColor());
             return true;
         }
         return false;
