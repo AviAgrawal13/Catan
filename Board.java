@@ -159,17 +159,13 @@ public class Board {
         tiletype.add("wood");
     
         Collections.shuffle(tiletype);
+        tiletype.add(desert - 1, "desert");
         for(int i = 0; i < tiletype.size(); i++) {
-            if(i != (desert - 1)){
-                tileArray[i].setType(tiletype.get(i));
-            }else{
-                tileArray[i].setType("desert");
-            }
+            tileArray[i].setType(tiletype.get(i));
             tileToType.put(i+1, tiletype.get(i));
         }
-
     }
-
+    
     private void createNode2DArray() {
         for(int i = 2; i < 9; i++) {
             node2DArray[0][i] = new Node(0, i);
