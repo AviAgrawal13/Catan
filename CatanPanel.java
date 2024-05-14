@@ -23,7 +23,7 @@ public class CatanPanel extends JPanel implements Runnable{
         this.tileImages = new LinkedList<>();
         this.houseImages = new LinkedList<>();
         this.roadImages = new LinkedList<>();                            // for this x and y we need to fix it based on which tile is desert
-        this.robberImage = new CatanImage("/catanImages/robber.png", 100, 200, 30, 30);
+        this.robberImage = new CatanImage("/catanImages/robber.png", 100, 200,(int)(49 * TileImage.scale), (int)(49 * TileImage.scale));
         setupTiles(ta, hd);
         String o = "orange";
 //        for (int i = 2; i < 9; i++) {
@@ -53,78 +53,96 @@ public class CatanPanel extends JPanel implements Runnable{
     public void updateCity(int x, int y, String color) {
         if (y == 0) {
             if (x ==  2) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 195, 115);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             } else if (x == 3) {
+                removeHouseAt(238, 95);
                 HouseImage houseImage = new HouseImage(color, 238, 95);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             } else if (x == 4) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 280, 115);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             } else if (x == 5) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 323, 95);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             } else if (x == 6) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 365, 115);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             } else if (x == 7) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 408, 95);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             } else if (x == 8) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 450, 115);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             }
         } else if (y == 1) {
             if (x == 1) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 156, 190);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             } else if (x == 2) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 195, 170);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             } else if (x == 3) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 237, 190);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             } else if (x == 4) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 280, 170);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             } else if (x == 5) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 323, 190);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             } else if (x == 6) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 365, 170);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             } else if (x == 7) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 408, 190);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             } else if (x == 8) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 450, 170);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             } else if (x == 9) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 492, 190);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             }
         } else if (y == 2) {
             if (x == 0) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 113, 265);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
             } else if (x == 1) {
+                removeHouseAt(195, 115);
                 HouseImage houseImage = new HouseImage(color, 156, 245);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
@@ -278,6 +296,15 @@ public class CatanPanel extends JPanel implements Runnable{
                 HouseImage houseImage = new HouseImage(color, 450, 470);
                 houseImage.elevateToCity();
                 houseImages.add(houseImage);
+            }
+        }
+    } // this might not work, whatll happen is the city and house will be present
+
+    public void removeHouseAt(int x, int y) {
+        for (int i = 0; i < houseImages.size(); i++) {
+            if (houseImages.get(i).equals(x, y)) {
+                houseImages.remove(i);
+                break;
             }
         }
     }

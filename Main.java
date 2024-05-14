@@ -321,20 +321,22 @@ public class Main {
         }
 
         // Stealing resources from players if robber is moved to a tile with other players
-        if (playersToStealFrom.isEmpty()) {
-            System.out.println("You placed the robber where there are no players.");
-        } else {
-            System.out.println("You placed the robber where players are, select a player to steal from by their position:");
-            for (int i = 0; i < playersToStealFrom.size(); i++) {
-                System.out.println(playersToStealFrom.get(i).getColor() + " " + (i + 1));
-            }
-
-            String resourceStolen = game.getRandomResource(playersToStealFrom.get(s.nextInt() - 1));
-
-            if (resourceStolen.equals("broke")) {
-                System.out.println("That player has no resources to steal.");
+        if(playersToStealFrom != null) {
+            if (playersToStealFrom.isEmpty()) {
+                System.out.println("You placed the robber where there are no players.");
             } else {
-                System.out.println("You successfully stole " + resourceStolen + "!");
+                System.out.println("You placed the robber where players are, select a player to steal from by their position:");
+                for (int i = 0; i < playersToStealFrom.size(); i++) {
+                    System.out.println(playersToStealFrom.get(i).getColor() + " " + (i + 1));
+                }
+
+                String resourceStolen = game.getRandomResource(playersToStealFrom.get(s.nextInt() - 1));
+
+                if (resourceStolen.equals("broke")) {
+                    System.out.println("That player has no resources to steal.");
+                } else {
+                    System.out.println("You successfully stole " + resourceStolen + "!");
+                }
             }
         }
     }

@@ -13,6 +13,8 @@ public class TileImage {
             numberToken = new CatanImage("/catanImages/" + token + ".png", x+ (int)(63 * scale), y+ (int)(76*scale), (int)(49 * scale), (int)(49 * scale));
         } else {
             numberToken = robberImage;
+            robberImage.setX(x + (int)(63 * scale));
+            robberImage.setY(y + (int)(76*scale));
         }
     }
 

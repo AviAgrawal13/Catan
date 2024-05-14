@@ -21,7 +21,7 @@ public class HouseImage {
         houseImage.draw(g2);
     }
 
-    public boolean equals(HouseImage other) {
-        return this.houseImage.equals(other.houseImage);
+    public boolean equals(int x, int y) {
+        return this.houseImage.getX() == x && this.houseImage.getY() == y;
     }
 }
