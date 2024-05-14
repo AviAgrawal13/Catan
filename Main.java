@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         // Initialize players with initial resources and colors
         players.add(new Player(100, 100, 100, 100, 100, "red"));
-        players.add(new Player(2, 2, 2, 2, 2, "blue"));
+        players.add(new Player(100, 100, 100, 100, 100, "blue"));
         players.add(new Player(2, 2, 2, 2, 2, "white"));
         players.add(new Player(2, 2, 2, 2, 2, "orange"));
 
@@ -64,8 +64,8 @@ public class Main {
                         System.out.println("You have: Wood " + p.getMatArray()[0] + " Brick " + p.getMatArray()[1] +
                                 " Sheep " + p.getMatArray()[2] + " Wheat " + p.getMatArray()[3] + " Ore " +
                                 p.getMatArray()[4]);
-                        // System.out.println(board.runDFS(p));
-                        // System.out.println(p.hasLongRoad());
+//                        System.out.println(board.runDFS(p));
+                        System.out.println(p.hasLongRoad());
                         System.out.println("What would you like to do?");
                         System.out.println("bd - buy dev card    ud - use dev card");
                         System.out.println("bh # # - buy house    uh # # - upgrade house");
@@ -92,8 +92,9 @@ public class Main {
                                         if (!game.buildRoad(s.nextInt(), s.nextInt())) {
                                             System.out.println("Something is wrong you may be too broke or unable to build there");
                                         } else {
-                                            board.runDFS(p);
-
+//                                            System.out.println(board.runDFS(p) + " DFS");
+                                            p.updateLongestRoad(board.runDFS(p));
+//                                            System.out.println(p.getLongestRoad());
                                             int player = 0 , bestScore = -1 , dupe = 0;
                                             for(int i = 0;i<4;i++){
                                                 int score = players.get(i).getLongestRoad();
@@ -108,8 +109,12 @@ public class Main {
                                             if(dupe == 0) {
                                                 for(int i = 0; i < 4; i++) {
                                                     players.get(i).setRoadAchievement(false);
+//                                                    System.out.print(i);
                                                 }
-                                                players.get(player).setRoadAchievement(true);
+                                                if(players.get(player).getLongestRoad() >= 5){
+                                                    players.get(player).setRoadAchievement(true);
+//                                                    System.out.print(player);
+                                                }
                                             }
                                         }
                                     }
@@ -294,20 +299,22 @@ public class Main {
         }
 
         // Stealing resources from players if robber is moved to a tile with other players
-        if (playersToStealFrom.isEmpty()) {
-            System.out.println("You placed the robber where there are no players.");
-        } else {
-            System.out.println("You placed the robber where players are, select a player to steal from by their position:");
-            for (int i = 0; i < playersToStealFrom.size(); i++) {
-                System.out.println(playersToStealFrom.get(i).getColor() + " " + (i + 1));
-            }
-
-            String resourceStolen = game.getRandomResource(playersToStealFrom.get(s.nextInt() - 1));
-
-            if (resourceStolen.equals("broke")) {
-                System.out.println("That player has no resources to steal.");
+        if(playersToStealFrom != null) {
+            if (playersToStealFrom.isEmpty()) {
+                System.out.println("You placed the robber where there are no players.");
             } else {
-                System.out.println("You successfully stole " + resourceStolen + "!");
+                System.out.println("You placed the robber where players are, select a player to steal from by their position:");
+                for (int i = 0; i < playersToStealFrom.size(); i++) {
+                    System.out.println(playersToStealFrom.get(i).getColor() + " " + (i + 1));
+                }
+
+                String resourceStolen = game.getRandomResource(playersToStealFrom.get(s.nextInt() - 1));
+
+                if (resourceStolen.equals("broke")) {
+                    System.out.println("That player has no resources to steal.");
+                } else {
+                    System.out.println("You successfully stole " + resourceStolen + "!");
+                }
             }
         }
     }
