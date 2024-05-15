@@ -299,14 +299,14 @@ public class Board {
         int conditions = 0;
         int bound;
         int upOrDown;
-        if(x != 10){
+        if((((y == 2) || (y == 3)) && x != 10) || (((y == 0) || (y == 5)) && x != 8) || (((y == 1) || (y == 4)) && x != 9)){
             if(!node2DArray[y][x+1].hasHouse()){
                 conditions++;
             }
         } else {
             conditions++;
         }
-        if(x != 0){
+        if((((y == 2) || (y == 3)) && x != 0) || (((y == 0) || (y == 5)) && x != 2) || (((y == 1) || (y == 4)) && x != 1)){
             if(!node2DArray[y][x-1].hasHouse()){
                 conditions++;
             }
