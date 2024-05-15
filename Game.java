@@ -286,17 +286,14 @@ public class Game {
      */
     public ArrayList<Player> developmentCardMoveRobber(int tile) {
         ArrayList<Player> playersToStealFrom = new ArrayList<>();
-        if (gameBoard.moveRobber(tile)) {
-            Node[] nodesOnTile = gameBoard.getTileToNode(tile);
-            for (Node node : nodesOnTile) {
-                if (node.hasHouse()) {
-                    playersToStealFrom.add(node.getHouse().getNameOfPlayer());
-                }
+        Node[] nodesOnTile = gameBoard.getTileToNode(tile);
+        for (Node node : nodesOnTile) {
+            if (node.hasHouse()) {
+                playersToStealFrom.add(node.getHouse().getNameOfPlayer());
             }
-            return playersToStealFrom;
-        } else {
-            return null;
         }
+        return playersToStealFrom;
+    
     }
 
     /**

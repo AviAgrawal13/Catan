@@ -11,7 +11,7 @@ public class Main {
     private static Game game = null; // The game instance
     private static ArrayList<Player> players = new ArrayList<>(); // List of players
     private static Board board = new Board(); // The game board
-    private static boolean skipSetup = true; // Flag to skip initial setup
+    private static boolean skipSetup = false; // Flag to skip initial setup
     private static CatanPanel cp;
     public static void main(String[] args) {
         String red = "\u001B[31m";
@@ -23,7 +23,7 @@ public class Main {
         window.setResizable(false);
 
         // Initialize players with initial resources and colors
-        players.add(new Player(2, 2, 2, 2, 2, "red"));
+        players.add(new Player(200, 200, 200, 200, 200, "red"));
         players.add(new Player(2, 2, 2, 2, 2, "blue"));
         players.add(new Player(2, 2, 2, 2, 2, "white"));
         players.add(new Player(2, 2, 2, 2, 2, "orange"));
