@@ -11,9 +11,13 @@ public class Main {
     private static Game game = null; // The game instance
     private static ArrayList<Player> players = new ArrayList<>(); // List of players
     private static Board board = new Board(); // The game board
-    private static boolean skipSetup = false; // Flag to skip initial setup
+    private static boolean skipSetup = true; // Flag to skip initial setup
     private static CatanPanel cp;
     public static void main(String[] args) {
+        String red = "\u001B[31m";
+        String reset = "\u001B[0m";
+        String green = "\u001B[32m";
+
         JFrame window = new JFrame("Catan");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
@@ -48,11 +52,9 @@ public class Main {
             // Main game loop
             while (true) {
                 Player p = game.getCurrentPlayer();
-                System.out.println();
-                System.out.println();
-                System.out.println();
-                System.out.println();
-                System.out.println(p.getColor() + " do you want to play knight or roll? (k or r)");
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+                System.out.println(p.getColor() + " - Do you want to play knight or roll? (k or r)");
                 String input = s.nextLine().toLowerCase();
                 if (input.equals("k")) {
                     // Check if the player can use a development card, then perform robber movement
@@ -71,7 +73,7 @@ public class Main {
                     }
 
                     // Handle player actions after rolling the dice
-                    while (true) {
+                    while (true) {    
                         boolean end = false;
                         System.out.println("You have: Wood " + p.getMatArray()[0] + " Brick " + p.getMatArray()[1] +
                                 " Sheep " + p.getMatArray()[2] + " Wheat " + p.getMatArray()[3] + " Ore " +
@@ -90,15 +92,18 @@ public class Main {
                                 switch (inputs.charAt(1)) {
                                     case 'd' -> {
                                         if (!game.buyDevelopmentCard()) {
-                                            System.out.println("You cannot afford that. Please do something else.");
+                                            System.out.println(red + "You cannot afford that. Please do something else." + reset);
+                                        } else {
+                                            System.out.println(green + "You succesfully bought a development card" + reset);
                                         }
                                     }
                                     case 'h' -> {
                                         int x = s.nextInt();
                                         int y = s.nextInt();
                                         if (!game.buildHouse(x, y, cp)) {
-                                            System.out.println("Something is wrong you may be too broke or unable to build there");
+                                            System.out.println(red + "Something is wrong you may be too broke or unable to build there" + reset);
                                         } else {
+                                            System.out.println(green + "You succesfully built a house" + reset);
                                             p.addVP(1);
                                         }
                                     }
@@ -106,7 +111,7 @@ public class Main {
                                         int x = s.nextInt();
                                         int y = s.nextInt();
                                         if (!game.buildRoad(x, y, cp)) {
-                                            System.out.println("Something is wrong you may be too broke or unable to build there");
+                                            System.out.println(red + "Something is wrong you may be too broke or unable to build there" + reset);
                                         } else {
 
                                             p.updateLongestRoad(board.runDFS(p));
@@ -130,6 +135,8 @@ public class Main {
                                                     players.get(player).setRoadAchievement(true);
                                                 }
                                             }
+
+                                            System.out.println(green + "You succesfully built a road" + reset);
                                         }
                                     }
                                     default -> {
@@ -215,8 +222,9 @@ public class Main {
                                         int y = s.nextInt();
 
                                         if (!game.upgradeHouse(x, y, cp)) {
-                                            System.out.println("Something is wrong, you may be too broke or no house to upgrade there");
+                                            System.out.println(red + "Something is wrong, you may be too broke or no house to upgrade there" + reset);
                                         } else {
+                                            System.out.println(green + "You succesfully upgraded your house" + reset);
                                             p.addVP(1);
                                         }
                                     }
@@ -258,9 +266,12 @@ public class Main {
                             game.endTurn();
                             break;
                         }
+                        s.nextLine();
+                        s.nextLine();
+                        System.out.print("\033[H\033[2J");
+                        System.out.flush();
                     }
                 }
-
                 // Check if any player has reached 10 victory points to end the game
                 if (p.getVPs() == 10) {
                     break;
@@ -272,7 +283,7 @@ public class Main {
 
             s.close();
         } catch (Error e) {
-            System.out.println("An error occurred. Please follow the instructions properly.");
+            System.out.println(red + "An error occurred. Please follow the instructions properly." + reset);
             System.out.println(e);
         }
     }
