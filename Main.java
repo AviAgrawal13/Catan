@@ -19,8 +19,8 @@ public class Main {
         window.setResizable(false);
 
         // Initialize players with initial resources and colors
-        players.add(new Player(100, 100, 100, 100, 100, "red"));
-        players.add(new Player(200, 200, 2, 2, 2, "blue"));
+        players.add(new Player(2, 2, 2, 2, 2, "red"));
+        players.add(new Player(2, 2, 2, 2, 2, "blue"));
         players.add(new Player(2, 2, 2, 2, 2, "white"));
         players.add(new Player(2, 2, 2, 2, 2, "orange"));
 
@@ -64,7 +64,6 @@ public class Main {
                 } else if (input.equals("r")) {
                     int roll = game.rollDice();
                     if (roll == 7) {
-                        System.out.println("Where would you like to move the robber? (int tile)");
                         robberMovement(s, true);
                     } else {
                         game.distributeResources(roll);
@@ -387,7 +386,7 @@ public class Main {
                     int y = s.nextInt();
                     if (board.canPlaceHouse(x, y, game.getCurrentPlayer())) {
                         board.addHouse(x, y, game.getCurrentPlayer());
-                        cp.updateHouse(x, y, game.getCurrentPlayer().getColor());
+                        cp.updateHouse(x, y, game.getCurrentPlayer().getColor(), false);
                         placedHouse = true;
                     } else {
                         System.out.println("That is not a valid location, please try again. (format x y)");

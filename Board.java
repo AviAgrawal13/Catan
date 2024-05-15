@@ -466,136 +466,188 @@ public class Board {
         return roadNextToNode(x1, y1, p) || roadNextToNode(x2, y2, p);
     }
     
-    public int runDFS(Player p){
+    /**
+     * Runs a Depth-First Search (DFS) algorithm to find the longest road owned by a player.
+     * 
+     * @param p The player for whom the DFS algorithm is run.
+     * @return The length of the longest road owned by the player.
+     */
+    public int runDFS(Player p) {
+        // Initialize the return value of DFS
         this.dfsRet = 0;
-        for(int i = 0; i < 21; i++){
-            for(int j = 0; j < 11; j++){
-                if(edges[j][i] != null) {
-                    if(edges[j][i].getRoad() != null) {
-                        if(edges[j][i].getRoad().getNameOfPlayer() == p){
+        
+        // Iterate through the grid
+        for (int i = 0; i < 21; i++) {
+            for (int j = 0; j < 11; j++) {
+                // Check if there is an edge at position (j, i)
+                if (edges[j][i] != null) {
+                    // Check if there is a road on the edge
+                    if (edges[j][i].getRoad() != null) {
+                        // Check if the road belongs to the player
+                        if (edges[j][i].getRoad().getNameOfPlayer() == p) {
+                            // Initialize a boolean array to mark visited nodes
                             boolean[][] vis = new boolean[11][21];
+                            // Mark the current node as visited
                             vis[j][i] = true;
+                            // Perform depth-first search (DFS) starting from this node
                             dfs(1, vis, new Point(i, j), p);
+                            // Update the longest road length for the player
                             dfsRet = Math.max(dfsRet, p.getLongestRoad());
                         }
                     }
                 }
             }
         }
+        // Return the longest road length found during DFS
         return dfsRet;
     }
 
+    /**
+     * Retrieves the neighboring roads from a given node.
+     * 
+     * @param x The x-coordinate of the node.
+     * @param y The y-coordinate of the node.
+     * @param p The player to whom the roads belong.
+     * @return The list of neighboring roads as points.
+     */
     public ArrayList<Point> getRoadsFromNode(int x, int y, Player p) {
         ArrayList<Point> roadsOnPoint = new ArrayList<>();
-        if(x != 10){
-            if(edges[2*y][2*x+1] != null) {
-                if(edges[2*y][2*x+1].getRoad() != null) {
-                    if(edges[2*y][2*x+1].getRoad().getNameOfPlayer() == p){
-                        roadsOnPoint.add(new Point(2*x+1, 2*y));
+        
+        // Check right
+        if (x != 10) {
+            if (edges[2 * y][2 * x + 1] != null) {
+                if (edges[2 * y][2 * x + 1].getRoad() != null) {
+                    if (edges[2 * y][2 * x + 1].getRoad().getNameOfPlayer() == p) {
+                        roadsOnPoint.add(new Point(2 * x + 1, 2 * y));
                     }
                 }
             }
         }
         
         // Check left
-        if(x != 0){
-            if(edges[2*y][2*x-1] != null) {
-                if(edges[2*y][2*x-1].getRoad() != null) {
-                    if(edges[2*y][2*x-1].getRoad().getNameOfPlayer() == p){
-                        roadsOnPoint.add(new Point(2*x-1, 2*y));
+        if (x != 0) {
+            if (edges[2 * y][2 * x - 1] != null) {
+                if (edges[2 * y][2 * x - 1].getRoad() != null) {
+                    if (edges[2 * y][2 * x - 1].getRoad().getNameOfPlayer() == p) {
+                        roadsOnPoint.add(new Point(2 * x - 1, 2 * y));
                     }
                 }
             }
         }
+        
         // Check up and down
-        if(y != 0 && y!= 5) {
-            if(edges[2*y+1][2*x] != null){
-                if(edges[2*y+1][2*x].getRoad() != null) {
-                    if(edges[2*y+1][2*x].getRoad().getNameOfPlayer() == p){
-                        roadsOnPoint.add(new Point(2*x, 2*y+1));
+        if (y != 0 && y != 5) {
+            if (edges[2 * y + 1][2 * x] != null) {
+                if (edges[2 * y + 1][2 * x].getRoad() != null) {
+                    if (edges[2 * y + 1][2 * x].getRoad().getNameOfPlayer() == p) {
+                        roadsOnPoint.add(new Point(2 * x, 2 * y + 1));
                     }
                 }
-            
-            }else if(edges[2*y-1][2*x] != null){
-                if(edges[2*y-1][2*x].getRoad() != null) {
-                    if(edges[2*y-1][2*x].getRoad().getNameOfPlayer() == p){
-                        roadsOnPoint.add(new Point(2*x, 2*y-1));
+            } else if (edges[2 * y - 1][2 * x] != null) {
+                if (edges[2 * y - 1][2 * x].getRoad() != null) {
+                    if (edges[2 * y - 1][2 * x].getRoad().getNameOfPlayer() == p) {
+                        roadsOnPoint.add(new Point(2 * x, 2 * y - 1));
                     }
                 }
             }
-        } else if(y == 0) {
+        } else if (y == 0) {
             // Check down
-            if(edges[2*y+1][2*x] != null) {
-                if(edges[2*y+1][2*x].getRoad() != null) {
-                    if(edges[2*y+1][2*x].getRoad().getNameOfPlayer() == p){
-                        roadsOnPoint.add(new Point(2*x, 2*y+1));
+            if (edges[2 * y + 1][2 * x] != null) {
+                if (edges[2 * y + 1][2 * x].getRoad() != null) {
+                    if (edges[2 * y + 1][2 * x].getRoad().getNameOfPlayer() == p) {
+                        roadsOnPoint.add(new Point(2 * x, 2 * y + 1));
                     }
                 }
             }
-        } else if(y == 5) {
+        } else if (y == 5) {
             // Check up
-            if(edges[2*y-1][2*x] != null) {
-                if(edges[2*y-1][2*x].getRoad() != null) {
-                    if(edges[2*y-1][2*x].getRoad().getNameOfPlayer() == p){
-                        roadsOnPoint.add(new Point(2*x, 2*y-1));
+            if (edges[2 * y - 1][2 * x] != null) {
+                if (edges[2 * y - 1][2 * x].getRoad() != null) {
+                    if (edges[2 * y - 1][2 * x].getRoad().getNameOfPlayer() == p) {
+                        roadsOnPoint.add(new Point(2 * x, 2 * y - 1));
                     }
                 }
             }
         }
         return roadsOnPoint;
     }
-    
-    public ArrayList<Point> getNeighbors(int x, int y, Player p) {
-        int x1;
-        int y1;
-        int x2;
-        int y2;
 
+    /**
+     * Retrieves neighboring nodes connected by roads from a given node.
+     * 
+     * @param x The x-coordinate of the node.
+     * @param y The y-coordinate of the node.
+     * @param p The player to whom the roads belong.
+     * @return The list of neighboring nodes as points.
+     */
+    public ArrayList<Point> getNeighbors(int x, int y, Player p) {
         // Calculate coordinates of nodes connected by the road
-        x1 = x/2;
-        y1 = y/2;
-        x2 = (y % 2 == 0) ? x/2 + 1 : x/2;
-        y2 = (y % 2 == 0) ? y/2 : y/2 + 1;
+        int x1 = x / 2;
+        int y1 = y / 2;
+        int x2 = (y % 2 == 0) ? x / 2 + 1 : x / 2;
+        int y2 = (y % 2 == 0) ? y / 2 : y / 2 + 1;
 
         ArrayList<Point> roadsNeighboring = new ArrayList<>();
         
         ArrayList<Point> point1 = getRoadsFromNode(x1, y1, p);
         ArrayList<Point> point2 = getRoadsFromNode(x2, y2, p);
         
-        for(Point i : point1) {
+        for (Point i : point1) {
             roadsNeighboring.add(i);
         }
-                
-        for(Point i : point2) {
-            if(!roadsNeighboring.contains(i)){
+                    
+        for (Point i : point2) {
+            if (!roadsNeighboring.contains(i)) {
                 roadsNeighboring.add(i);
             }
         }
         return roadsNeighboring;    
     }
 
+    /**
+     * Performs a Depth-First Search (DFS) traversal on the grid.
+     * 
+     * @param length The current length of the path in the DFS traversal.
+     * @param vis    A boolean array representing visited nodes.
+     * @param poi    The current point being visited.
+     * @param play   The player for whom the DFS is performed.
+     */
     public void dfs(int length, boolean[][] vis, Point poi, Player play) {
+        // Update the longest road length found during DFS
         dfsRet = Math.max(dfsRet, length);
+        // Get neighboring roads
         ArrayList<Point> neighbors = getNeighbors(poi.getX(), poi.getY(), play);
-        for(Point p : neighbors){
-            if(!vis[p.getY()][p.getX()] && nullCheck(p)){
-                if(edges[p.getY()][p.getX()].getRoad().getNameOfPlayer() == play){
+        for (Point p : neighbors) {
+            // Check if the neighbor has not been visited and is not null
+            if (!vis[p.getY()][p.getX()] && nullCheck(p)) {
+                // Check if the road belongs to the player
+                if (edges[p.getY()][p.getX()].getRoad().getNameOfPlayer() == play) {
+                    // Mark the neighbor as visited
                     vis[p.getY()][p.getX()] = true;
-                    dfs(length+1, vis, new Point(p.getX(), p.getY()), play);
+                    // Continue DFS from the neighbor
+                    dfs(length + 1, vis, new Point(p.getX(), p.getY()), play);
+                    // Mark the neighbor as unvisited for backtracking
                     vis[p.getY()][p.getX()] = false;
                 }
             }
         }
     }
 
-    public boolean nullCheck(Point p){
-        if(edges[p.getY()][p.getX()] != null){
-            if(edges[p.getY()][p.getX()].getRoad() != null){
+    /**
+     * Checks if an edge represented by a point is not null.
+     * 
+     * @param p The point representing the edge.
+     * @return True if the edge is not null, otherwise false.
+     */
+    public boolean nullCheck(Point p) {
+        if (edges[p.getY()][p.getX()] != null) {
+            if (edges[p.getY()][p.getX()].getRoad() != null) {
                 return true;
             }
         }
         return false;
     }
+
 
     /**
      * Adds a house to the specified coordinates on the game board for a given player.

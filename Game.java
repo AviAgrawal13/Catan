@@ -204,7 +204,7 @@ public class Game {
             p.updateMat("brick", -1);
             p.updateMat("wheat", -1);
             p.updateMat("sheep", -1);
-            cp.updateHouse(x, y, p.getColor());
+            cp.updateHouse(x, y, p.getColor(), false);
             return true;
         }
         return false;
@@ -224,7 +224,7 @@ public class Game {
                 gameBoard.upgradeHouse(x, y);
                 p.updateMat("wheat", -2);
                 p.updateMat("ore", -3);
-                cp.updateCity(x, y, p.getColor());
+                cp.updateHouse(x, y, p.getColor(), true);
                 return true;
             }
         }
